@@ -19,7 +19,7 @@ pygame.display.set_caption("CHOMP CHOMP!")
 running = True
 while running:
     for event in pygame.event.get():
-        if event.type == pygame.quit():
+        if event.type == pygame.quit:
             running = False
 
     screen.fill(BLUE)
@@ -30,3 +30,5 @@ while running:
 
     # Update the display
     pygame.display.flip()
+
+pygame.quit()
