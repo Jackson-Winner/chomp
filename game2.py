@@ -24,8 +24,8 @@ def draw_background(surf):
     seagrass = pygame.image.load('assets/sprites/seagrass.png').convert()
 
     # Use PNG transparency
-    sand.set_colorkey(0, 0)
-    seagrass.set_colorkey(0, 0)
+    sand.set_colorkey((0, 0, 0))
+    seagrass.set_colorkey((0, 0, 0))
 
     # Fill the Screen
     for x in range(0, screen_width, tile_size):
@@ -45,13 +45,31 @@ def draw_background(surf):
     surf.blit(text,(screen_width/2-text.get_width()/2, screen_height/20-text.get_height()/2))
 
 def draw_fishes(surf):
-    
+    # Load some fish tiles from sprites
+    green_fish = pygame.image.load("assets/sprites/green_fish.png").convert()
+    green_fish.set_colorkey((0, 0, 0))
+    puffer_fish = pygame.image.load("assets/sprites/puffer_fish.png").convert()
+    puffer_fish.set_colorkey((0, 0, 0))
+
+    for _ in range(5):
+        x = random.randint(0, screen_width-tile_size)
+        y = random.randint(tile_size, screen_height-(2*tile_size))
+        if random.randint(0,1) == 0:
+            green_fish = pygame.transform.flip(green_fish, True, False)
+        surf.blit(green_fish, (x, y))
+
+    for _ in range(5):
+        x = random.randint(0, screen_width-tile_size)
+        y = random.randint(tile_size, screen_height-(2*tile_size))
+        if random.randint(0,1) == 0:
+            puffer_fish = pygame.transform.flip(puffer_fish, True, False)
+        surf.blit(puffer_fish, (x, y))
 
 # Main Loop
 running = True
 background = screen.copy()
 draw_background(background)
-
+draw_fishes(background)
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
