@@ -14,14 +14,13 @@ tile_size = 64
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("FISHY!")
 
-# Load our game font
-custom_font = pygame.font.Font("assets/fonts/From Cartoon Blocks.ttf", 48)
-
+# Clock object
+clock = pygame.time.Clock()
 def draw_background(surf):
     # Load Our Files
-    water = pygame.image.load('assets/sprites/water.png').convert()
-    sand = pygame.image.load('assets/sprites/sand_top.png').convert()
-    seagrass = pygame.image.load('assets/sprites/seagrass.png').convert()
+    water = pygame.image.load('../assets/sprites/water.png').convert()
+    sand = pygame.image.load('../assets/sprites/sand_top.png').convert()
+    seagrass = pygame.image.load('../assets/sprites/seagrass.png').convert()
 
     # Use PNG transparency
     sand.set_colorkey((0, 0, 0))
@@ -41,6 +40,7 @@ def draw_background(surf):
         surf.blit(seagrass, (x,screen_height-tile_size*2))
 
     # Draw the text
+    custom_font = pygame.font.Font("../assets/fonts/From Cartoon Blocks.ttf", 48)
     text = custom_font.render("CHOMP", True, (255, 0, 0))
     surf.blit(text,(screen_width/2-text.get_width()/2, screen_height/20-text.get_height()/2))
 
@@ -50,7 +50,7 @@ background = screen.copy()
 draw_background(background)
 # Draw fish on the screen
 for _ in range(5):
-    fishes.add(Fish(random.randint(tile_size, screen_width-tile_size),random.randint(tile_size, screen_height-(2*tile_size))))
+    fishes.add(Fish(random.randint(screen_width, screen_width*1.5),random.randint(tile_size, screen_height-(2*tile_size))))
 
 while running:
     for event in pygame.event.get():
@@ -60,11 +60,22 @@ while running:
     # Draw Background
     screen.blit(background, (0, 0))
 
-    # Draw sprite group fishes
-    fishes.draw(background)
+    # Update fish location
+    fishes.update()
+
+    # Check if any fish is off the screen
+    for fish in fishes:
+        if fish.rect.x < -fish.rect.width:
+            fishes.remove(fish)
+            fishes.add(Fish(random.randint(screen_width, screen_width+50),random.randint(tile_size, screen_height - (2 * tile_size))))
+
+    # Draw the fish
+    fishes.draw(screen)
 
     # Update the display
     pygame.display.flip()
 
+    # Limit Framerate
+    clock.tick(60)
 # Quit
 pygame.QUIT()
