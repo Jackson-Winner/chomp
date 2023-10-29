@@ -38,13 +38,16 @@ chomp = pygame.mixer.Sound("../assets/sounds/boom.wav")
 
 while running:
     for event in pygame.event.get():
-        print(event)
+        #print(event)
         if event.type == pygame.QUIT:
             running = False
 
         # Control Fish
         if event.type == pygame.KEYUP:
-            player.stop()
+            if event.key == pygame.K_w or pygame.K_s:
+                player.stop_y()
+            if event.key == pygame.K_a or pygame.K_d:
+                player.stop_x()
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:

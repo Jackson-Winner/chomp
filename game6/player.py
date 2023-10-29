@@ -30,8 +30,9 @@ class Player(pygame.sprite.Sprite):
         self.x_velocity = PLAYER_SPEED
         self.image = self.forward_image
 
-    def stop(self):
+    def stop_x(self):
         self.x_velocity = 0
+    def stop_y(self):
         self.y_velocity = 0
 
     def update(self):
